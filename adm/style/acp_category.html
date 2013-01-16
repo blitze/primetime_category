@@ -1,0 +1,168 @@
+<!-- INCLUDE overall_header.html -->
+
+<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/themes/base/jquery-ui.css" media="all" rel="stylesheet" type="text/css" />
+<link href="../ext/primetime/core/resources/css/nestedListCRUD.css" media="all" rel="stylesheet" type="text/css" />
+
+<a id="maincontent"></a>
+
+<h1>{L_TITLE}</h1>
+
+<p>{L_TITLE_EXPLAIN}</p>
+
+<!-- IF ERROR -->
+    <div class="errorbox">
+		<h3>{L_WARNING}</h3>
+		<p>{ERROR}</p>
+	</div>
+<!-- ENDIF -->
+
+<p>&nbsp;</p>
+
+<div id="nestedSortableCRUD" style="position: relative; height: 550px">
+
+	<div id="loading" style="display: none"><img src="../ext/primetime/core/resources/images/loader.gif" alt="" /> {L_AJAX_PROCESSING}</div>
+	<div id="ajax-message"></div>
+
+    <div>
+        <div style="display: none">
+            <button id="add-new">{L_ADD_CATEGORY}</button>
+            <button id="add-bulk">&nbsp;</button>
+        </div>
+        <div style="width: auto; height: auto; display: none; position: absolute; z-index: 1000">
+            <form id="bulk_form" name="bulk_form" action="" method="post" style="width: 350px;">
+    		<fieldset>
+    			<p class="small">{L_PT_REQUIRED_FIELDS}</p><br />
+    	        <dl>
+    				<dt><label>{L_CAT_PARENT}</label></dt>
+    				<dd>
+    					<select id="parent_id" name="parent_id">
+    						<option value="0">{L_NONE}</option>
+    					<!-- BEGIN option -->
+    						<option value="{option.CAT_ID}">{option.S_PADDING}{option.CAT_NAME}</option>
+    					<!-- END option -->
+    					</select>
+    				</dd>
+    			</dl>
+    			<textarea id="add_list" name="add_list"></textarea>
+                <div style="width: 100%; height: 300px; position: relative" id="buld_editor"></div>
+	            <p class="submit-buttons">
+	        		<input class="button2" type="reset" id="cancel" name="cancel" value="{L_CANCEL}" />
+	            	<input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />&nbsp;
+	        	</p>
+    		</fieldset>
+    		</form>
+        </div>
+    </div>
+
+	<div id="no-items"<!-- IF .tree --> style="display: none"<!-- ENDIF -->><br />{L_NO_CATEGORIES}</div>
+
+    <a class="small right" href="{U_RECALC}">{L_REBUILD_TREE}</a><div class="clear">&nbsp;</div>
+
+	<ol id="sortable" class="row3 ui-helper-reset ui-helper-clearfix ui-corner-all" style="padding: 4px; margin: 0px;">
+	<!-- BEGIN tree -->
+		<!-- IF tree.S_THIS_DEPTH > tree.S_PREV_DEPTH -->
+		<ol>
+		<!-- ELSE -->
+		<!-- BEGIN close --></ol></li><!-- END close -->
+		<!-- ENDIF -->
+		<li id="item_{tree.CAT_ID}">
+			<div class="ui-state-default ui-corner-all">
+				<span class="left ui-icon ui-icon-arrowthick-2-n-s"></span>
+                <a href="#" id="icon_{tree.CAT_ID}" class="left item-action icon-select ui-dialog-titlebar-close ui-corner-all"><span class="inline-icon">{tree.CAT_ICON}</span></a>
+				<span class="editable">{tree.CAT_NAME}</span>
+				<a href="#" id="delete_{tree.CAT_ID}" class="right item-action delete-item ui-dialog-titlebar-close ui-corner-all" title="{L_DELETE}"><span class="ui-icon ui-icon-closethick">{L_DELETE}</span></a>
+				<a href="#" id="edit_{tree.CAT_ID}" class="right item-action edit-item ui-dialog-titlebar-close ui-corner-all" title="{L_EDIT}"><span class="ui-icon ui-icon-gear">{L_EDIT}</span></a>
+			</div>
+		<!-- IF tree.S_NUM_KIDS == 0 -->
+		</li>
+		<!-- ENDIF -->
+	<!-- END tree -->
+	<!-- BEGIN close_tree --></ol></li><!-- END close_tree -->
+	</ol>
+
+	<button id="save" style="float: right">{L_SAVE_CHANGES}</button>
+
+    <div id="icons" class="ui-menu ui-widget ui-widget-content ui-state-default ui-corner-all">
+        <div class="ui-state-active" style="margin: 2px; padding: 3px; height: 158px;"></div>
+    </div>
+
+	<div id="dialog-confirm" class="dialog" title="{L_DELETE_CATEGORY}" style="display: none;">
+		<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>{L_DELETE_CATEGORY_CONFIRM}</p>
+	</div>
+
+	<div id="dialog-edit" class="dialog" title="{L_EDIT_CATEGORY}" style="display: none;">
+		<form id="edit-form" name="edit_form" style="width: 350px;">
+		<fieldset>
+			<p class="small">{L_PT_REQUIRED_FIELDS}</p><br />
+            <input type="hidden" id="cat_id" name="cat_id" value="0" />
+			<dl>
+				<dt><label>{L_CAT_NAME}*</label></dt>
+				<dd><input id="cat_name" class="required" type="text" name="cat_name" size="25" value="" /></dd>
+			</dl>
+	        <dl>
+				<dt><label>{L_CAT_PARENT}</label></dt>
+				<dd>
+					<select id="parent_id" name="parent_id">
+						<option value="0">{L_NONE}</option>
+					<!-- BEGIN option -->
+						<option value="{option.CAT_ID}">{option.PADDING}{option.CAT_NAME}</option>
+					<!-- END option -->
+					</select>
+				</dd>
+			</dl>
+	    	<dl>
+				<dt><label>{L_ITEM_ICON}</label></dt>
+				<dd>
+					<select id="icon-select" name="cat_icon" class="post" style="float: left; margin-right: 4px">
+						{ICON_OPTS}
+					</select>
+					<div id="icon-prev"></div>
+				</dd>
+			</dl>
+		</fieldset>
+		</form>
+	</div>
+</div>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+<script src="../ext/primetime/core/resources/js/nestedSortable.js"></script>
+<script src="../ext/primetime/core/resources/js/jquery.populate.pack.js"></script>
+<script src="../ext/primetime/core/resources/js/nestedListCRUD.js"></script>
+<script src="http://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+
+<script type="text/javascript"> 
+// <![CDATA[
+	$(document).ready(function() {
+		$('#nestedSortableCRUD').nestedSortableCRUD({
+			ajax_url	: '{UA_AJAX_URL}',
+			icon_path	: '{T_ICONS_PATH}',
+
+			l_add		: '{L_ADD}',
+			l_edit		: '{L_EDIT}',
+			l_cancel	: '{L_CANCEL}',
+			l_del_item	: '{L_DELETE_ITEM}',
+			l_del_kids	: '{L_DELETE_KIDS}',
+			l_required	: '{L_REQUIRED}',
+			l_add_item	: '{L_ADD_ITEM}',
+			l_edit_item	: '{L_EDIT_ITEM}',
+			l_on_leave	: '{L_UNSAVED_CHANGES}',
+			l_error_msg	: '{L_PROCESSING_ERROR}'
+		});
+    });
+
+    var ace_editor = ace.edit("buld_editor");
+	var textarea = document.getElementById('add_list');
+
+	textarea.style.display = 'none';
+	ace_editor.setTheme("ace/theme/monokai");
+	ace_editor.getSession().setMode("ace/mode/yaml");
+	ace_editor.getSession().setValue(textarea.value);
+	ace_editor.getSession().on('change', function(){
+		textarea.value = ace_editor.getSession().getValue();
+	});
+// ]]>
+</script>
+
+</body>
+</html>

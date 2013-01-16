@@ -1,0 +1,34 @@
+services:
+    primetime.category.display:
+        class: phpbb_ext_primetime_category_core_display
+        arguments:
+            - @dbal.conn
+            - @primetime.core.helper
+            - 'phpbb_categories'
+            - 'cat_id'
+
+    primetime.category.manager:
+        class: phpbb_ext_primetime_category_core_manager
+        arguments:
+            - @dbal.conn
+            - @primetime.core.helper
+            - 'phpbb_categories'
+            - 'cat_id'
+
+    primetime.category.admin:
+        class: phpbb_ext_primetime_category_controller_admin
+        arguments:
+            - @request
+            - @user
+            - @primetime.category.manager
+
+# Blocks
+    primetime.categories.block:
+        class: phpbb_ext_primetime_category_blocks_categories
+        arguments:
+            - @request
+            - @dbal.conn
+            - @template
+            - @primetime.category.display
+        tags:
+            - { name: primetime.block, alias: Categories }

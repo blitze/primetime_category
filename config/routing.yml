@@ -1,0 +1,5 @@
+primetime.category.admin:
+    pattern: category/admin/{action}/{cat_id}
+    defaults: { _controller: primetime.category.admin:handle, cat_id: 0 }
+    requirements:
+        cat_id: \d+

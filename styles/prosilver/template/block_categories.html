@@ -1,0 +1,18 @@
+<ul>
+<!-- BEGIN tree -->
+	<!-- IF tree.S_THIS_DEPTH > tree.S_PREV_DEPTH -->
+	<ul>
+	<!-- ELSE -->
+	<!-- BEGIN close --></ul></li><!-- END close -->
+	<!-- ENDIF -->
+	<li>
+		<a href="{tree.U_CAT}"><span class="icon">{tree.CAT_ICON}</span><span>{tree.CAT_NAME}</span></a>
+	<!-- IF tree.S_NUM_KIDS == 0 -->
+	</li>
+	<!-- ENDIF -->
+<!-- END tree -->
+    <!-- BEGIN close_tree -->
+    </ul>
+    </li>
+    <!-- END close_tree -->
+</ul>
