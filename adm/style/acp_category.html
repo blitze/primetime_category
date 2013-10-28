@@ -1,7 +1,7 @@
 <!-- INCLUDE overall_header.html -->
 
 <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/themes/base/jquery-ui.css" media="all" rel="stylesheet" type="text/css" />
-<link href="../ext/primetime/core/resources/css/nestedListCRUD.css" media="all" rel="stylesheet" type="text/css" />
+<link href="{T_PATH}ext/primetime/primetime/assets/css/nestedListCRUD.css" media="all" rel="stylesheet" type="text/css" />
 
 <a id="maincontent"></a>
 
@@ -20,7 +20,7 @@
 
 <div id="nestedSortableCRUD" style="position: relative; height: 550px">
 
-	<div id="loading" style="display: none"><img src="../ext/primetime/core/resources/images/loader.gif" alt="" /> {L_AJAX_PROCESSING}</div>
+	<div id="loading" style="display: none"><img src="{T_PATH}ext/primetime/primetime/assets/images/loader.gif" alt="" /> {L_AJAX_PROCESSING}</div>
 	<div id="ajax-message"></div>
 
     <div>
@@ -124,45 +124,27 @@
 	</div>
 </div>
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
-<script src="../ext/primetime/core/resources/js/nestedSortable.js"></script>
-<script src="../ext/primetime/core/resources/js/jquery.populate.pack.js"></script>
-<script src="../ext/primetime/core/resources/js/nestedListCRUD.js"></script>
-<script src="http://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
-
 <script type="text/javascript"> 
 // <![CDATA[
-	$(document).ready(function() {
-		$('#nestedSortableCRUD').nestedSortableCRUD({
-			ajax_url	: '{UA_AJAX_URL}',
-			icon_path	: '{T_ICONS_PATH}',
-
-			l_add		: '{L_ADD}',
-			l_edit		: '{L_EDIT}',
-			l_cancel	: '{L_CANCEL}',
-			l_del_item	: '{L_DELETE_ITEM}',
-			l_del_kids	: '{L_DELETE_KIDS}',
-			l_required	: '{L_REQUIRED}',
-			l_add_item	: '{L_ADD_ITEM}',
-			l_edit_item	: '{L_EDIT_ITEM}',
-			l_on_leave	: '{L_UNSAVED_CHANGES}',
-			l_error_msg	: '{L_PROCESSING_ERROR}'
-		});
-    });
-
-    var ace_editor = ace.edit("buld_editor");
-	var textarea = document.getElementById('add_list');
-
-	textarea.style.display = 'none';
-	ace_editor.setTheme("ace/theme/monokai");
-	ace_editor.getSession().setMode("ace/mode/yaml");
-	ace_editor.getSession().setValue(textarea.value);
-	ace_editor.getSession().on('change', function(){
-		textarea.value = ace_editor.getSession().getValue();
-	});
+var ajaxUrl		= '{UA_AJAX_URL}';
+var LANG = {
+	editNode			: '{LA_EDIT}',
+	cancel				: '{LA_CANCEL}',
+	deleteNode			: '{LA_DELETE_ITEM}',
+	deleteChildNodes	: '{LA_DELETE_KIDS}',
+	required			: '{LA_REQUIRED}',
+	addNode				: '{LA_ADD_ITEM}',
+	editNode			: '{LA_EDIT_ITEM}',
+	unsavedChanges		: '{LA_UNSAVED_CHANGES}',
+	errorMessage		: '{LA_PROCESSING_ERROR}'
+};
 // ]]>
 </script>
 
-</body>
-</html>
+<!-- INCLUDEJS //ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js -->
+<!-- INCLUDEJS http://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js -->
+<!-- INCLUDEJS {T_PATH}ext/primetime/primetime/assets/js/nestedSortable.js -->
+<!-- INCLUDEJS {T_PATH}ext/primetime/primetime/assets/js/jquery.populate.pack.js -->
+<!-- INCLUDEJS {T_PATH}ext/primetime/primetime/assets/js/nestedListCRUD.js -->
+<!-- INCLUDEJS {T_PATH}ext/primetime/category/assets/js/admin.js -->
+<!-- INCLUDE overall_footer.html -->

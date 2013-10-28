@@ -1,8 +1,8 @@
 <?php
 /**
 *
-* @package pun
-* @copyright (c) 2012 David King (imkingdavid)
+* @package category
+* @copyright (c) 2013 Daniel A. (blitze)
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -39,6 +39,7 @@ if (empty($lang) || !is_array($lang))
 $lang = array_merge($lang, array(
 	'CAT_NAME'			=> 'Category Name',
 	'CAT_PARENT'		=> 'Parent Category',
+	'CHANGE_ME'			=> 'Change Me',
 	'ADD_CATEGORY'		=> 'New Category',
 	'SAVE_CHANGES'		=> 'Save Changes',
 	'AJAX_PROCESSING'	=> 'Working',

@@ -22,8 +22,6 @@ if (!defined('IN_PHPBB'))
 */
 class phpbb_ext_primetime_category_blocks_categories implements phpbb_ext_primetime_blocks_core_interface
 {
-	public $title;
-
 	/**
 	 * Constructor method
 	 *
@@ -36,17 +34,14 @@ class phpbb_ext_primetime_category_blocks_categories implements phpbb_ext_primet
 		$this->template = $template;
 		$this->tree = $tree;
 		$this->db = $db;
-		$this->title = 'Categories';
 	}
 
 	public function config($settings)
 	{
-		return array_merge(array('ext' => ''), $settings);
-	}
-
-	public function edit($settings)
-	{
-		return "";
+		return array(
+            'legend1'       => 'Settings',
+            'enable_icons'  => array('lang' => 'ENABLE_ICONS',		'validate' => 'bool',	'type' => 'radio:yes_no', 'explain' => false),
+        );
 	}
 
 	public function display($settings)
@@ -71,6 +66,9 @@ class phpbb_ext_primetime_category_blocks_categories implements phpbb_ext_primet
 		$content = $this->template->assign_display('categories');
 		$this->template->destroy_block_vars('tree');
 
-		return $content;
+		return array(
+            'title'     => 'Categories',
+            'content'   => $content,
+        );
 	}
 }

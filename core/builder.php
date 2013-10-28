@@ -19,9 +19,9 @@ if (!defined('IN_PHPBB'))
 
 /**
 * Manage nested sets
-* @package phpBB Primetime Categories
+* @package phpBB Primetime
 */
-class display extends \primetime\primetime\core\tree\display
+class builder extends \primetime\primetime\core\tree\builder
 {
 	/**
 	* Construct

@@ -1,22 +1,27 @@
+parameters:
+    tables.primetime.categories: %core.table_prefix%categories
+    tables.primetime.categories_data: %core.table_prefix%categories_data
+
 services:
+
     primetime.category.display:
-        class: phpbb_ext_primetime_category_core_display
+        class: primetime\category\core\display
         arguments:
             - @dbal.conn
-            - @primetime.core.helper
-            - 'phpbb_categories'
+            - @primetime
+            - %tables.primetime.categories%
             - 'cat_id'
 
     primetime.category.manager:
-        class: phpbb_ext_primetime_category_core_manager
+        class: primetime\category\core\builder
         arguments:
             - @dbal.conn
-            - @primetime.core.helper
-            - 'phpbb_categories'
+            - @primetime
+            - %tables.primetime.categories%
             - 'cat_id'
 
     primetime.category.admin:
-        class: phpbb_ext_primetime_category_controller_admin
+        class: primetime\category\controller\admin
         arguments:
             - @request
             - @user
@@ -24,11 +29,10 @@ services:
 
 # Blocks
     primetime.categories.block:
-        class: phpbb_ext_primetime_category_blocks_categories
+        class: primetime\category\blocks\categories
         arguments:
             - @request
             - @dbal.conn
             - @template
-            - @primetime.category.display
         tags:
             - { name: primetime.block, alias: Categories }

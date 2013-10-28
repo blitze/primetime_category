@@ -1,7 +1,7 @@
 {
 	"name": "primetime/category",
-	"type": "phpbb3-extension",
-	"description": "An example/sample extension to be used for testing purposes in phpBB Development.",
+    "type": "phpbb-extension",
+	"description": "Organize your content into categories",
 	"homepage": "http://www.mylatterdays.com",
 	"version": "1.0.0",
 	"time": "2012-02-15 01:01:01",
@@ -11,13 +11,13 @@
 			"username": "Blitze",
 			"email": "shizzah@hotmail.com",
 			"homepage": "http://www.mylatterdays.com",
-			"role": "Contributor"
+			"role": "Developer"
 		}],
 	"require": {
 		"php": ">=5.3",
-		"phpbb": "3.1.0-dev"
+		"phpbb/phpbb": "3.1.*@dev"
 	},
 	"extra": {
-		"display-name": "phpBB Primetime Category"
+		"display-name": "phpBB Primetime Categories"
 	}
 }
