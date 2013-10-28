@@ -1,16 +1,17 @@
 <?php
 /**
-*
-* @package phpBB3 Primetime
-* @version $Id$
-* @copyright (c) 2005 phpBB Group
-* @license http://opensource.org/licenses/gpl-license.php GNU Public License
-*
-*/
+ *
+ * @package primetime
+ * @copyright (c) 2013 Daniel A. (blitze)
+ * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
+ *
+ */
+
+namespace primetime\category\blocks;
 
 /**
-* @ignore
-*/
+ * @ignore
+ */
 if (!defined('IN_PHPBB'))
 {
 	exit;
@@ -20,34 +21,58 @@ if (!defined('IN_PHPBB'))
 * Categories Block
 * @package phpBB Primetime Categories
 */
-class phpbb_ext_primetime_category_blocks_categories implements phpbb_ext_primetime_blocks_core_interface
+class categories implements \primetime\primetime\core\iblock
 {
 	/**
-	 * Constructor method
-	 *
-	 * @param phpbb_request $request Request object
-	 * @param phpbb_ext_primetime_category_core_display $tree Tree display object
+	 * Database
+	 * @var \phpbb\db\driver\driver
 	 */
-	public function __construct(phpbb_request $request, phpbb_db_driver $db, phpbb_template $template, phpbb_ext_primetime_category_core_display $tree)
+	protected $db;
+
+	/**
+	* Template object
+	* @var \phpbb\template\template
+	*/
+	protected $template;
+
+	/**
+	* Tree object
+	* @var \primetime\category\core\display
+	*/
+	protected $user;
+
+	/**
+	* Primetime object
+	* @var \primetime\primetime\core\primetime
+	*/
+	protected $primetime;
+
+	/**
+	* Constructor
+	*
+	* @param \phpbb\db\driver\driver				$db             Database connection
+	* @param \phpbb\template\template				$template		Template object
+	* @param \primetime\category\core\display		$tree			Primetime helper object
+	* @param \primetime\primetime\core\primetime	$primetime		Primetime helper object
+	*/
+	public function __construct(phpbb_db_driver $db, \phpbb\template\template $template, \primetime\category\core\display $tree, \primetime\primetime\core\primetime $primetime)
 	{
-		$this->request = $request;
+		$this->primetime = $primetime;
 		$this->template = $template;
 		$this->tree = $tree;
 		$this->db = $db;
 	}
 
-	public function config($settings)
+	public function config()
 	{
 		return array(
             'legend1'       => 'Settings',
-            'enable_icons'  => array('lang' => 'ENABLE_ICONS',		'validate' => 'bool',	'type' => 'radio:yes_no', 'explain' => false),
+            'enable_icons'  => array('lang' => 'ENABLE_ICONS', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => false, 'default' => false),
         );
 	}
 
 	public function display($settings)
 	{
-		$config = $this->config($settings);
-
 		$sql = $this->tree->qet_tree_sql();
 		$result = $this->db->sql_query($sql);
 
@@ -58,17 +83,11 @@ class phpbb_ext_primetime_category_blocks_categories implements phpbb_ext_primet
 		}
 		$this->db->sql_freeresult($result);
 
-		$this->template->set_filenames(array(
-			'categories' => 'block_categories.html',
-		));
-
-		$this->tree->display_list($data, $this->template, 'tree');		
-		$content = $this->template->assign_display('categories');
-		$this->template->destroy_block_vars('tree');
+		$this->tree->display_list($data, $this->template, 'tree');	
 
 		return array(
             'title'     => 'Categories',
-            'content'   => $content,
+            'content'   => 	$this->primetime->render_block('primetime/category', 'blocks_categories.html', 'categories'),
         );
 	}
 }

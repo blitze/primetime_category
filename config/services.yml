@@ -31,8 +31,9 @@ services:
     primetime.categories.block:
         class: primetime\category\blocks\categories
         arguments:
-            - @request
             - @dbal.conn
-            - @template
+            - @primetime.template
+            - @primetime.category.display
+            - @primetime
         tags:
             - { name: primetime.block, alias: Categories }
