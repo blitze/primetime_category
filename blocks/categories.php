@@ -21,7 +21,7 @@ if (!defined('IN_PHPBB'))
 * Categories Block
 * @package phpBB Primetime Categories
 */
-class categories implements \primetime\primetime\core\iblock
+class categories  extends \primetime\primetime\core\blocks\driver\block
 {
 	/**
 	 * Database
@@ -30,44 +30,36 @@ class categories implements \primetime\primetime\core\iblock
 	protected $db;
 
 	/**
-	* Template object
-	* @var \phpbb\template\template
+	* User object
+	* @var \phpbb\user
 	*/
-	protected $template;
+	protected $user;
 
 	/**
 	* Tree object
 	* @var \primetime\category\core\display
 	*/
-	protected $user;
-
-	/**
-	* Primetime object
-	* @var \primetime\primetime\core\primetime
-	*/
-	protected $primetime;
+	protected $tree;
 
 	/**
 	* Constructor
 	*
-	* @param \phpbb\db\driver\driver				$db             Database connection
-	* @param \phpbb\template\template				$template		Template object
-	* @param \primetime\category\core\display		$tree			Primetime helper object
-	* @param \primetime\primetime\core\primetime	$primetime		Primetime helper object
+	* @param \phpbb\db\driver\driver				$db     Database connection
+	* @param \phpbb\template\template				$user	User object
+	* @param \primetime\category\core\display		$tree	Category tree display object
 	*/
-	public function __construct(phpbb_db_driver $db, \phpbb\template\template $template, \primetime\category\core\display $tree, \primetime\primetime\core\primetime $primetime)
+	public function __construct(\phpbb\db\driver\driver $db, \phpbb\user $user, \primetime\category\core\display $tree)
 	{
-		$this->primetime = $primetime;
-		$this->template = $template;
-		$this->tree = $tree;
 		$this->db = $db;
+		$this->user = $user;
+		$this->tree = $tree;
 	}
 
-	public function config()
+	public function get_config()
 	{
 		return array(
-            'legend1'       => 'Settings',
-            'enable_icons'  => array('lang' => 'ENABLE_ICONS', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => false, 'default' => false),
+            'legend1'       => 'Settings', //$this->user->data['SETTINGS'],
+            'enable_icons'  => array('lang' => 'ENABLE_ICONS', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => false, 'default' => 0),
         );
 	}
 
@@ -83,11 +75,11 @@ class categories implements \primetime\primetime\core\iblock
 		}
 		$this->db->sql_freeresult($result);
 
-		$this->tree->display_list($data, $this->template, 'tree');	
+		$this->tree->display_list($data, $this->btemplate, 'tree');	
 
 		return array(
             'title'     => 'Categories',
-            'content'   => 	$this->primetime->render_block('primetime/category', 'blocks_categories.html', 'categories'),
+            'content'   => 	$this->render_block('primetime/category', 'block_categories.html', 'categories'),
         );
 	}
 }

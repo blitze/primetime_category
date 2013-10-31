@@ -28,12 +28,13 @@ services:
             - @primetime.category.manager
 
 # Blocks
-    primetime.categories.block:
+    primetime.block.categories:
         class: primetime\category\blocks\categories
         arguments:
             - @dbal.conn
-            - @primetime.template
+            - @user
             - @primetime.category.display
-            - @primetime
+        calls:
+            - [set_name, [primetime.block.categories]]
         tags:
-            - { name: primetime.block, alias: Categories }
+            - { name: primetime.block }
