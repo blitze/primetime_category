@@ -50,7 +50,6 @@ class categories  extends \primetime\primetime\core\blocks\driver\block
 	public function __construct(\phpbb\db\driver\driver $db, \primetime\category\core\display $tree)
 	{
 		$this->db = $db;
-		$this->user = $user;
 		$this->tree = $tree;
 	}
 
