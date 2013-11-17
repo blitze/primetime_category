@@ -45,20 +45,19 @@ class categories  extends \primetime\primetime\core\blocks\driver\block
 	* Constructor
 	*
 	* @param \phpbb\db\driver\driver				$db     Database connection
-	* @param \phpbb\template\template				$user	User object
 	* @param \primetime\category\core\display		$tree	Category tree display object
 	*/
-	public function __construct(\phpbb\db\driver\driver $db, \phpbb\user $user, \primetime\category\core\display $tree)
+	public function __construct(\phpbb\db\driver\driver $db, \primetime\category\core\display $tree)
 	{
 		$this->db = $db;
 		$this->user = $user;
 		$this->tree = $tree;
 	}
 
-	public function get_config()
+	public function get_config($data)
 	{
 		return array(
-            'legend1'       => 'Settings', //$this->user->data['SETTINGS'],
+            'legend1'       => 'SETTINGS',
             'enable_icons'  => array('lang' => 'ENABLE_ICONS', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => false, 'default' => 0),
         );
 	}
@@ -78,7 +77,7 @@ class categories  extends \primetime\primetime\core\blocks\driver\block
 		$this->tree->display_list($data, $this->btemplate, 'tree');	
 
 		return array(
-            'title'     => 'Categories',
+            'title'     => 'CATEGORIES',
             'content'   => 	$this->render_block('primetime/category', 'block_categories.html', 'categories'),
         );
 	}

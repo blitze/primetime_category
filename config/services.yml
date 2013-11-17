@@ -32,7 +32,6 @@ services:
         class: primetime\category\blocks\categories
         arguments:
             - @dbal.conn
-            - @user
             - @primetime.category.display
         calls:
             - [set_name, [primetime.block.categories]]
