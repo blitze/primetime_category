@@ -2,8 +2,9 @@
 
 	$(document).ready(function() {
 
-		$('#nestedSortableCRUD').nestedListCRUD({
-			ajaxUrl		: ajaxUrl
+		$('#nested-tree').treeBuilder({
+			ajaxUrl		: ajaxUrl,
+			primaryKey	: 'cat_id'
 		});
 
 		// cloud9 editor for yaml

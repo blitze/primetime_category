@@ -1,7 +1,7 @@
 <!-- INCLUDE overall_header.html -->
 
 <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/themes/base/jquery-ui.css" media="all" rel="stylesheet" type="text/css" />
-<link href="{T_PATH}ext/primetime/primetime/assets/css/nestedListCRUD.css" media="all" rel="stylesheet" type="text/css" />
+<link href="{T_PATH}ext/primetime/primetime/assets/css/tree_builder.css" media="all" rel="stylesheet" type="text/css" />
 
 <a id="maincontent"></a>
 
@@ -18,7 +18,7 @@
 
 <p>&nbsp;</p>
 
-<div id="nestedSortableCRUD" style="position: relative; height: 550px">
+<div id="nested-tree" style="position: relative; height: 550px">
 
 	<div id="loading" style="display: none"><img src="{T_PATH}ext/primetime/primetime/assets/images/loader.gif" alt="" /> {L_AJAX_PROCESSING}</div>
 	<div id="ajax-message"></div>
@@ -31,18 +31,16 @@
         <div style="width: auto; height: auto; display: none; position: absolute; z-index: 1000">
             <form id="bulk_form" name="bulk_form" action="" method="post" style="width: 350px;">
     		<fieldset>
-    			<p class="small">{L_PT_REQUIRED_FIELDS}</p><br />
-    	        <dl>
-    				<dt><label>{L_CAT_PARENT}</label></dt>
-    				<dd>
-    					<select id="parent_id" name="parent_id">
-    						<option value="0">{L_NONE}</option>
-    					<!-- BEGIN option -->
-    						<option value="{option.CAT_ID}">{option.S_PADDING}{option.CAT_NAME}</option>
-    					<!-- END option -->
-    					</select>
-    				</dd>
-    			</dl>
+    			<p class="small">{L_ADD_BULK_EXPLAIN}</p><br />
+    	        
+    	        <label>{L_CAT_PARENT}:</label>
+    	        <select id="parent_id" name="parent_id" style="width: 100%">
+					<option value="0">{L_NONE}</option>
+				<!-- BEGIN option -->
+					<option value="{option.CAT_ID}">{option.S_PADDING}{option.CAT_NAME}</option>
+				<!-- END option -->
+				</select><br /><br />
+				<label>{L_CAT_LIST}</label>
     			<textarea id="add_list" name="add_list"></textarea>
                 <div style="width: 100%; height: 300px; position: relative" id="buld_editor"></div>
 	            <p class="submit-buttons">
@@ -54,37 +52,31 @@
         </div>
     </div>
 
-	<div id="no-items"<!-- IF .tree --> style="display: none"<!-- ENDIF -->><br />{L_NO_CATEGORIES}</div>
+    <div id="no-items">{L_NO_CATEGORIES}</div>
 
-    <a class="small right" href="{U_RECALC}">{L_REBUILD_TREE}</a><div class="clear">&nbsp;</div>
+	<div style="text-align: right; display: none"><input type="checkbox" id="select-all" /> {L_SELECT_ALL}</div>
+	<ol id="sortable" class="row3 ui-helper-reset ui-helper-clearfix ui-corner-all" style="display: none; padding: 4px; margin: 0px; width: 100%"></ol>
 
-	<ol id="sortable" class="row3 ui-helper-reset ui-helper-clearfix ui-corner-all" style="padding: 4px; margin: 0px;">
-	<!-- BEGIN tree -->
-		<!-- IF tree.S_THIS_DEPTH > tree.S_PREV_DEPTH -->
-		<ol>
-		<!-- ELSE -->
-		<!-- BEGIN close --></ol></li><!-- END close -->
-		<!-- ENDIF -->
-		<li id="item_{tree.CAT_ID}">
-			<div class="ui-state-default ui-corner-all">
-				<span class="left ui-icon ui-icon-arrowthick-2-n-s"></span>
-                <a href="#" id="icon_{tree.CAT_ID}" class="left item-action icon-select ui-dialog-titlebar-close ui-corner-all"><span class="inline-icon">{tree.CAT_ICON}</span></a>
-				<span class="editable">{tree.CAT_NAME}</span>
-				<a href="#" id="delete_{tree.CAT_ID}" class="right item-action delete-item ui-dialog-titlebar-close ui-corner-all" title="{L_DELETE}"><span class="ui-icon ui-icon-closethick">{L_DELETE}</span></a>
-				<a href="#" id="edit_{tree.CAT_ID}" class="right item-action edit-item ui-dialog-titlebar-close ui-corner-all" title="{L_EDIT}"><span class="ui-icon ui-icon-gear">{L_EDIT}</span></a>
-			</div>
-		<!-- IF tree.S_NUM_KIDS == 0 -->
-		</li>
-		<!-- ENDIF -->
-	<!-- END tree -->
-	<!-- BEGIN close_tree --></ol></li><!-- END close_tree -->
-	</ol>
+	<button id="save" style="float: right; display: none">{L_SAVE_CHANGES}</button>
+	<button id="delete-selected" style="float: right; display: none">{L_DELETE_SELECTED}</button>
+	<button id="rebuild-tree" style="float: right; display: none">{L_REBUILD_TREE}</button>
 
-	<button id="save" style="float: right">{L_SAVE_CHANGES}</button>
 
-    <div id="icons" class="ui-menu ui-widget ui-widget-content ui-state-default ui-corner-all">
+    <div id="icons" class="ui-menu ui-widget ui-widget-content ui-state-default ui-corner-all" style="display: none">
         <div class="ui-state-active" style="margin: 2px; padding: 3px; height: 158px;"></div>
     </div>
+
+	<script id="item-template" type="text/x-jquery-tmpl">
+		<li id="item-<%=cat_id%>">
+			<div class="ui-state-default ui-corner-all">
+				<span class="left ui-icon ui-icon-arrow-4"></span>
+	            <a href="#" id="icon-<%=cat_id%>" class="left item-action icon-select ui-dialog-titlebar-close ui-corner-all"><span class="inline-icon"><%=cat_icon%></span></a>
+				<span class="editable" data-field="cat_name"><%=cat_name%></span>
+				<input type="checkbox" class="right select-item" style="margin-right: 5px; margin-left: 5px; vertical-align: central" />
+				<a href="#" id="delete-<%=cat_id%>" class="right item-action delete-item ui-dialog-titlebar-close ui-corner-all" title="{L_DELETE}"><span class="ui-icon ui-icon-closethick">{L_DELETE}</span></a>
+			</div>
+		</li>
+	</script>
 
 	<div id="dialog-confirm" class="dialog" title="{L_DELETE_CATEGORY}" style="display: none;">
 		<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>{L_DELETE_CATEGORY_CONFIRM}</p>
@@ -128,6 +120,7 @@
 // <![CDATA[
 var ajaxUrl		= '{UA_AJAX_URL}';
 var LANG = {
+	none				: '{LA_NONE}',
 	editNode			: '{LA_EDIT}',
 	cancel				: '{LA_CANCEL}',
 	deleteNode			: '{LA_DELETE_ITEM}',
@@ -145,6 +138,7 @@ var LANG = {
 <!-- INCLUDEJS http://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js -->
 <!-- INCLUDEJS {T_PATH}ext/primetime/primetime/assets/js/nestedSortable.js -->
 <!-- INCLUDEJS {T_PATH}ext/primetime/primetime/assets/js/jquery.populate.pack.js -->
-<!-- INCLUDEJS {T_PATH}ext/primetime/primetime/assets/js/nestedListCRUD.js -->
+<!-- INCLUDEJS {T_PATH}ext/primetime/primetime/assets/js/tree_builder.js -->
 <!-- INCLUDEJS {T_PATH}ext/primetime/category/assets/js/admin.js -->
+
 <!-- INCLUDE overall_footer.html -->

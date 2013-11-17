@@ -17,14 +17,21 @@ if (!defined('IN_PHPBB'))
 	exit;
 }
 
-// This is required for all controllers
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Yaml\Parser;
+use Symfony\Component\Yaml\Exception\ParseException;
 
 /**
 *
 */
 class admin
 {
+	/**
+	 * Database object
+	 * @var \phpbb\db\driver
+	 */
+	protected $db;
+
 	/**
 	 * Request object
 	 * @var \phpbb\request\request_interface
@@ -45,15 +52,15 @@ class admin
 
 	/**
 	* Constructor
-	* NOTE: The parameters of this method must match in order and type with
-	* the dependencies defined in the services.yml file for this service.
 	*
+	* @param \phpbb\db\driver\driver			$db				Database object
 	* @param \phpbb\request\request_interface	$request 		Request object
 	* @param \phpbb\user                		$user       	User object
 	* @param \primetime\category\core\builder	$tree			Tree builder Object
 	*/
-	public function __construct(\phpbb\request\request_interface $request, \phpbb\user $user, \primetime\category\core\builder $tree)
+	public function __construct(\phpbb\db\driver\driver $db, \phpbb\request\request_interface $request, \phpbb\user $user, \primetime\category\core\builder $tree)
 	{
+		$this->db = $db;
 		$this->request = $request;
 		$this->user = $user;
 		$this->tree = $tree;
@@ -67,7 +74,13 @@ class admin
 	*/
 	public function handle($action, $cat_id = 0)
 	{
-		$this->user->add_lang_ext('primetime/category', 'admin');
+		$this->user->add_lang_ext('primetime/category', 'acp/info_acp_category');
+
+		if ($this->request->is_ajax() === false)
+		{
+			$this->return_data['errors'] = $this->user->lang['NOT_AUTHORIZED'];
+			return new Response(json_encode($this->return_data));
+		}
 
 		$errors = array();
 		$return = array();
@@ -78,7 +91,7 @@ class admin
 			case 'edit':
 
 				$data = array(
-					'cat_id'	=> $this->request->variable('id', 0),
+					'cat_id'	=> (int) $cat_id,
 					'cat_name'  => $this->request->variable('title', $this->user->lang['CHANGE_ME'], true),
 				);
 
@@ -94,24 +107,28 @@ class admin
 					}
 				}
 
-				$id	 = 0;
-				$title 	= '';
-
 				if (!sizeof($errors))
 				{
 					$data['cat_name'] = ucwords($data['cat_name']);
 
 					$this->tree->save_node($data['cat_id'], $data);
 
-					$id = $data['cat_id'];
-					$title = $data['cat_name'];
+					$return = $this->manager->get_row($data['item_id']);
 					$errors += $this->tree->get_errors();
 				}
 
-				$return = array(
-					'id'		=> $id,
-					'title'		=> $title,
-				);
+			break;
+
+			case 'add_bulk':
+
+				$parent_id = $this->request->variable('parent_id', 0);
+				$bulk_list = $this->request->variable('add_list', '', true);
+	
+				$tree = $this->manager->string_to_nestedset($bulk_list, array('cat_name' => ''));
+				if (sizeof($tree)) {
+					$return['items'] = $this->manager->add_branch($tree, $parent_id);
+				}
+				$errors += $this->manager->get_errors();
 
 			break;
 
@@ -144,9 +161,32 @@ class admin
 
 			break;
 
-			case 'get':
+			case 'get_item':
 
 				$return = $this->tree->get_row($cat_id);
+
+			break;
+
+
+			case 'rebuild_tree':
+
+				$this->tree->recalc_nestedset();
+				
+				// no break here
+
+			case 'get_all_items':
+
+				$sql = $this->tree->qet_tree_sql();
+				$result = $this->db->sql_query($sql);
+
+				$items = array();
+				while ($row = $this->db->sql_fetchrow($result))
+				{
+					$items[] = $row;
+				}
+				$this->db->sql_freeresult($result);
+				
+				$return['items'] = $items;
 
 			break;
 		}

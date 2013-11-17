@@ -23,6 +23,7 @@ services:
     primetime.category.admin:
         class: primetime\category\controller\admin
         arguments:
+            - @dbal.conn
             - @request
             - @user
             - @primetime.category.manager
