@@ -1,7 +1,7 @@
 {
 	"name": "primetime/category",
     "type": "phpbb-extension",
-	"description": "Organize your content into categories",
+	"description": "Organize your phpBB Primetime content into categories",
 	"homepage": "http://www.mylatterdays.com",
 	"version": "1.0.0",
 	"time": "2012-02-15 01:01:01",

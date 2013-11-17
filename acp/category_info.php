@@ -30,7 +30,7 @@ class category_info
 			'parent'	=> 'ACP_MOD_MANAGEMENT',
 			'version'	=> '1.0.0',
 			'modes'		=> array(
-				'category'		=> array('title' => 'CATEGORY', 'auth' => '', 'cat' => array('ACP_CATEGORY')),
+				'category'		=> array('title' => 'CATEGORIES', 'auth' => '', 'cat' => array('ACP_CATEGORY')),
 			),
 		);
 	}
