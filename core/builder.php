@@ -34,6 +34,6 @@ class builder extends \primetime\primetime\core\tree\builder
 	*/
 	public function __construct(\phpbb\db\driver\driver $db, \primetime\primetime\core\primetime $primetime, $table, $pk)
 	{
-		parent::__construct($db, $primetime, $table, $pk, '');
+		parent::__construct($db, $primetime, $table, $pk);
 	}
 }

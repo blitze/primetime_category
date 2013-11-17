@@ -30,10 +30,9 @@ class display extends \primetime\primetime\core\tree\display
 	* @param \primetime\primetime\core\primetime	$primetime		Primetime object
 	* @param string									$table_name		Table name
 	* @param string									$pk				Primary key
-	* @param string									$sql_where		Column restriction
 	*/
 	public function __construct(\phpbb\db\driver\driver $db, \primetime\primetime\core\primetime $primetime, $table, $pk)
 	{
-		parent::__construct($db, $primetime, $table, $pk, '');
+		parent::__construct($db, $primetime, $table, $pk);
 	}
 }
