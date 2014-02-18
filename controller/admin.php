@@ -76,11 +76,11 @@ class admin
 	{
 		$this->user->add_lang_ext('primetime/category', 'acp/info_acp_category');
 
-		if ($this->request->is_ajax() === false)
+		/*if ($this->request->is_ajax() === false)
 		{
 			$this->return_data['errors'] = $this->user->lang['NOT_AUTHORIZED'];
 			return new Response(json_encode($this->return_data));
-		}
+		}*/
 
 		$errors = array();
 		$return = array();
@@ -92,7 +92,7 @@ class admin
 
 				$data = array(
 					'cat_id'	=> (int) $cat_id,
-					'cat_name'  => $this->request->variable('title', $this->user->lang['CHANGE_ME'], true),
+					'cat_name'  => $this->request->variable('cat_name', $this->user->lang['CHANGE_ME'], true),
 				);
 
 				if ($action == 'edit')
@@ -113,7 +113,7 @@ class admin
 
 					$this->tree->save_node($data['cat_id'], $data);
 
-					$return = $this->manager->get_row($data['item_id']);
+					$return = $this->tree->get_row($data['cat_id']);
 					$errors += $this->tree->get_errors();
 				}
 
@@ -124,22 +124,25 @@ class admin
 				$parent_id = $this->request->variable('parent_id', 0);
 				$bulk_list = $this->request->variable('add_list', '', true);
 	
-				$tree = $this->manager->string_to_nestedset($bulk_list, array('cat_name' => ''));
+				$tree = $this->tree->string_to_nestedset($bulk_list, array('cat_name' => ''));
 				if (sizeof($tree)) {
-					$return['items'] = $this->manager->add_branch($tree, $parent_id);
+					$return['items'] = $this->tree->add_branch($tree, $parent_id);
 				}
-				$errors += $this->manager->get_errors();
+				$errors += $this->tree->get_errors();
 
 			break;
 
 			case 'update':
 
 				$data = array(
-					'cat_id'	=> $this->request->variable('cat_id', 0),
+					'cat_id'	=> (int) $cat_id,
 					'cat_icon'  => $this->request->variable('icon', ''),
 				);
 
-				$errors += $this->tree->save_node($data['cat_id'], $data);
+				$this->tree->save_node($data['cat_id'], $data);
+
+				$return = $this->tree->get_row($data['cat_id']);
+				$errors += $this->tree->get_errors();
 
 			break;
 

@@ -1,10 +1,26 @@
 (function($){
 
 	$(document).ready(function() {
+		var tree = {};
+		
+		var initIconPicker = function() {
+			$('.icon-select').iconPicker({
+				onSelect: function(item, iconHtml, iconClass) {
+					var id = item.parentsUntil('li').parent().attr('id').substring('5');
+					tree.treeBuilder('updateItem', {'icon': iconClass}, id);
+				}
+			});
+		};
 
-		$('#nested-tree').treeBuilder({
+		tree = $('#nested-tree').treeBuilder({
 			ajaxUrl		: ajaxUrl,
-			primaryKey	: 'cat_id'
+			primaryKey	: 'cat_id',
+			loaded		: function() {
+				initIconPicker();
+			},
+			updated		: function() {
+				initIconPicker();
+			}
 		});
 
 		// cloud9 editor for yaml
