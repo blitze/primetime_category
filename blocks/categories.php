@@ -73,11 +73,11 @@ class categories  extends \primetime\primetime\core\blocks\driver\block
 		}
 		$this->db->sql_freeresult($result);
 
-		$this->tree->display_list($data, $this->btemplate, 'tree');	
+		$this->tree->display_list($data, $this->ptemplate, 'tree');	
 
 		return array(
             'title'     => 'CATEGORIES',
-            'content'   => 	$this->render_block('primetime/category', 'block_categories.html', 'categories'),
+            'content'   => 	$this->ptemplate->render_view('primetime/category', 'block_categories.html', 'categories'),
         );
 	}
 }

@@ -1,12 +1,12 @@
-<ul>
+<ul class="pt-list">
 <!-- BEGIN tree -->
 	<!-- IF tree.S_THIS_DEPTH > tree.S_PREV_DEPTH -->
-	<ul class="flat-list block-ui clearfix">
+	<ul class="pt-list">
 	<!-- ELSE -->
 	<!-- BEGIN close --></ul></li><!-- END close -->
 	<!-- ENDIF -->
 	<li>
-		<div class="inner-block-ui"><a href="{tree.U_CAT}"><i class="{tree.CAT_ICON}"></i>{tree.CAT_NAME}</a></div>
+		<a href="{tree.U_CAT}"><i class="{tree.CAT_ICON}"></i>{tree.CAT_NAME}</a>
 	<!-- IF tree.S_NUM_KIDS == 0 -->
 	</li>
 	<!-- ENDIF -->
