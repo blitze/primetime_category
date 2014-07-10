@@ -10,14 +10,6 @@
 namespace primetime\category\blocks;
 
 /**
- * @ignore
- */
-if (!defined('IN_PHPBB'))
-{
-	exit;
-}
-
-/**
 * Categories Block
 * @package phpBB Primetime Categories
 */
@@ -30,23 +22,23 @@ class categories  extends \primetime\primetime\core\blocks\driver\block
 	protected $db;
 
 	/**
-	* User object
-	* @var \phpbb\user
-	*/
+	 * User object
+	 * @var \phpbb\user
+	 */
 	protected $user;
 
 	/**
-	* Tree object
-	* @var \primetime\category\core\display
-	*/
+	 * Tree object
+	 * @var \primetime\category\core\display
+	 */
 	protected $tree;
 
 	/**
-	* Constructor
-	*
-	* @param \phpbb\db\driver\factory				$db     Database connection
-	* @param \primetime\category\core\display		$tree	Category tree display object
-	*/
+	 * Constructor
+	 *
+	 * @param \phpbb\db\driver\factory				$db     Database connection
+	 * @param \primetime\category\core\display		$tree	Category tree display object
+	 */
 	public function __construct(\phpbb\db\driver\factory $db, \primetime\category\core\display $tree)
 	{
 		$this->db = $db;
@@ -56,9 +48,9 @@ class categories  extends \primetime\primetime\core\blocks\driver\block
 	public function get_config($data)
 	{
 		return array(
-            'legend1'       => 'SETTINGS',
-            'enable_icons'  => array('lang' => 'ENABLE_ICONS', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => false, 'default' => 0),
-        );
+			'legend1'       => 'SETTINGS',
+			'enable_icons'  => array('lang' => 'ENABLE_ICONS', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => false, 'default' => 0),
+		);
 	}
 
 	public function display($settings)
@@ -76,8 +68,8 @@ class categories  extends \primetime\primetime\core\blocks\driver\block
 		$this->tree->display_list($data, $this->ptemplate, 'tree');	
 
 		return array(
-            'title'     => 'CATEGORIES',
-            'content'   => 	$this->ptemplate->render_view('primetime/category', 'block_categories.html', 'categories'),
-        );
+			'title'     => 'CATEGORIES',
+			'content'   => 	$this->ptemplate->render_view('primetime/category', 'block_categories.html', 'categories'),
+		);
 	}
 }

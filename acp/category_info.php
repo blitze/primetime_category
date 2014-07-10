@@ -9,17 +9,6 @@
 
 namespace primetime\category\acp;
 
-/**
- * @ignore
- */
-if (!defined('IN_PHPBB'))
-{
-	exit;
-}
-
-/**
-* @package module_install
-*/
 class category_info
 {
 	function module()

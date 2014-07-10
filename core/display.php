@@ -10,27 +10,19 @@
 namespace primetime\category\core;
 
 /**
- * @ignore
+ * Manage nested sets
+ * @package phpBB Primetime Categories
  */
-if (!defined('IN_PHPBB'))
-{
-	exit;
-}
-
-/**
-* Manage nested sets
-* @package phpBB Primetime Categories
-*/
 class display extends \primetime\primetime\core\tree\display
 {
 	/**
-	* Construct
-	*
-	* @param \phpbb\db\driver\factory				$db             Database connection
-	* @param \primetime\primetime\core\primetime	$primetime		Primetime object
-	* @param string									$table_name		Table name
-	* @param string									$pk				Primary key
-	*/
+	 * Construct
+	 *
+	 * @param \phpbb\db\driver\factory				$db             Database connection
+	 * @param \primetime\primetime\core\primetime	$primetime		Primetime object
+	 * @param string								$table_name		Table name
+	 * @param string								$pk				Primary key
+	 */
 	public function __construct(\phpbb\db\driver\factory $db, \primetime\primetime\core\primetime $primetime, $table, $pk)
 	{
 		parent::__construct($db, $primetime, $table, $pk);

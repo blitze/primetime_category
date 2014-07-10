@@ -9,21 +9,8 @@
 
 namespace primetime\category\controller;
 
-/**
- * @ignore
- */
-if (!defined('IN_PHPBB'))
-{
-	exit;
-}
-
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Yaml\Parser;
-use Symfony\Component\Yaml\Exception\ParseException;
 
-/**
-*
-*/
 class admin
 {
 	/**
@@ -39,25 +26,25 @@ class admin
 	protected $request;
 
 	/**
-	* User object
-	* @var \phpbb\user
-	*/
+	 * User object
+	 * @var \phpbb\user
+	 */
 	protected $user;
 
 	/**
-	* Tree builder object
-	* @var \primetime\category\core\builder
-	*/
+	 * Tree builder object
+	 * @var \primetime\category\core\builder
+	 */
 	protected $tree;
 
 	/**
-	* Constructor
-	*
-	* @param \phpbb\db\driver\factory			$db				Database object
-	* @param \phpbb\request\request_interface	$request 		Request object
-	* @param \phpbb\user                		$user       	User object
-	* @param \primetime\category\core\builder	$tree			Tree builder Object
-	*/
+	 * Constructor
+	 *
+	 * @param \phpbb\db\driver\factory			$db				Database object
+	 * @param \phpbb\request\request_interface	$request 		Request object
+	 * @param \phpbb\user                		$user       	User object
+	 * @param \primetime\category\core\builder	$tree			Tree builder Object
+	 */
 	public function __construct(\phpbb\db\driver\factory $db, \phpbb\request\request_interface $request, \phpbb\user $user, \primetime\category\core\builder $tree)
 	{
 		$this->db = $db;
@@ -66,12 +53,6 @@ class admin
 		$this->tree = $tree;
 	}
 
-	/**
-	* Default controller method to be called if no other method is given.
-	* In our case, it is accessed when the URL is /example
-	*
-	* @return Symfony\Component\HttpFoundation\Response A Symfony Response object
-	*/
 	public function handle($action, $cat_id = 0)
 	{
 		$this->user->add_lang_ext('primetime/category', 'acp/info_acp_category');
@@ -112,7 +93,7 @@ class admin
 
 				$parent_id = $this->request->variable('parent_id', 0);
 				$bulk_list = $this->request->variable('add_list', '', true);
-	
+
 				$tree = $this->tree->string_to_nestedset($bulk_list, array('cat_name' => ''));
 				if (sizeof($tree)) {
 					$return['items'] = $this->tree->add_branch($tree, $parent_id);
@@ -160,7 +141,7 @@ class admin
 			case 'rebuild_tree':
 
 				$this->tree->recalc_nestedset();
-				
+
 				// no break here
 
 			case 'get_all_items':
@@ -174,7 +155,7 @@ class admin
 					$items[] = $row;
 				}
 				$this->db->sql_freeresult($result);
-				
+
 				$return['items'] = $items;
 
 			break;
