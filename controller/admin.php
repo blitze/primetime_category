@@ -137,7 +137,6 @@ class admin
 
 			break;
 
-
 			case 'rebuild_tree':
 
 				$this->tree->recalc_nestedset();

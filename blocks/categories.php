@@ -65,7 +65,7 @@ class categories  extends \primetime\primetime\core\blocks\driver\block
 		}
 		$this->db->sql_freeresult($result);
 
-		$this->tree->display_list($data, $this->ptemplate, 'tree');	
+		$this->tree->display_list($data, $this->ptemplate, 'tree');
 
 		return array(
 			'title'     => 'CATEGORIES',
