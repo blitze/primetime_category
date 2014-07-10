@@ -24,7 +24,7 @@
 		});
 
 		// cloud9 editor for yaml
-		var ace_editor = ace.edit("buld_editor");
+		var ace_editor = ace.edit("bulk_editor");
 		var textarea = document.getElementById('add_list');
 
 		textarea.style.display = 'none';

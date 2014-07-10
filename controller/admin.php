@@ -53,12 +53,12 @@ class admin
 	/**
 	* Constructor
 	*
-	* @param \phpbb\db\driver\driver			$db				Database object
+	* @param \phpbb\db\driver\factory			$db				Database object
 	* @param \phpbb\request\request_interface	$request 		Request object
 	* @param \phpbb\user                		$user       	User object
 	* @param \primetime\category\core\builder	$tree			Tree builder Object
 	*/
-	public function __construct(\phpbb\db\driver\driver $db, \phpbb\request\request_interface $request, \phpbb\user $user, \primetime\category\core\builder $tree)
+	public function __construct(\phpbb\db\driver\factory $db, \phpbb\request\request_interface $request, \phpbb\user $user, \primetime\category\core\builder $tree)
 	{
 		$this->db = $db;
 		$this->request = $request;
@@ -76,11 +76,11 @@ class admin
 	{
 		$this->user->add_lang_ext('primetime/category', 'acp/info_acp_category');
 
-		/*if ($this->request->is_ajax() === false)
+		if ($this->request->is_ajax() === false)
 		{
 			$this->return_data['errors'] = $this->user->lang['NOT_AUTHORIZED'];
 			return new Response(json_encode($this->return_data));
-		}*/
+		}
 
 		$errors = array();
 		$return = array();
@@ -90,30 +90,19 @@ class admin
 			case 'add':
 			case 'edit':
 
-				$data = array(
-					'cat_id'	=> (int) $cat_id,
+				$return = array(
 					'cat_name'  => $this->request->variable('cat_name', $this->user->lang['CHANGE_ME'], true),
 				);
 
-				if ($action == 'edit')
+				if ($action == 'edit' && !$cat_id)
 				{
-					if ($data['cat_id'])
-					{
-						$data += $this->tree->get_row($data['cat_id']);
-					}
-					else
-					{
-						$errors[] = $this->user->lang['MISSING_CAT_ID'];
-					}
+					$errors[] = $this->user->lang['MISSING_CAT_ID'];
 				}
-
-				if (!sizeof($errors))
+				else
 				{
-					$data['cat_name'] = ucwords($data['cat_name']);
+					$return['cat_name'] = ucwords($return['cat_name']);
 
-					$this->tree->save_node($data['cat_id'], $data);
-
-					$return = $this->tree->get_row($data['cat_id']);
+					$this->tree->save_node($cat_id, $return);
 					$errors += $this->tree->get_errors();
 				}
 
@@ -134,14 +123,11 @@ class admin
 
 			case 'update':
 
-				$data = array(
-					'cat_id'	=> (int) $cat_id,
+				$return = array(
 					'cat_icon'  => $this->request->variable('icon', ''),
 				);
 
-				$this->tree->save_node($data['cat_id'], $data);
-
-				$return = $this->tree->get_row($data['cat_id']);
+				$this->tree->save_node($cat_id, $return);
 				$errors += $this->tree->get_errors();
 
 			break;

@@ -15,6 +15,7 @@ services:
     primetime.category.manager:
         class: primetime\category\core\builder
         arguments:
+            - @cache.driver
             - @dbal.conn
             - @primetime
             - %tables.primetime.categories%
@@ -27,6 +28,11 @@ services:
             - @request
             - @user
             - @primetime.category.manager
+
+    primetime.category.listener:
+        class: primetime\category\event\listener
+        tags:
+            - { name: event.listener }
 
 # Blocks
     primetime.block.categories:

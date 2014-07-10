@@ -2,22 +2,24 @@
 	"name": "primetime/category",
     "type": "phpbb-extension",
 	"description": "Organize your phpBB Primetime content into categories",
-	"homepage": "http://www.mylatterdays.com",
+	"homepage": "https://github.com/blitze/primetime_category",
 	"version": "1.0.0",
-	"time": "2012-02-15 01:01:01",
-	"licence": "GPL-2.0",
+	"time": "2014-01-14 01:01:01",
+	"license": "GPL-2.0",
 	"authors": [{
 			"name": "Daniel A.",
 			"username": "Blitze",
 			"email": "shizzah@hotmail.com",
-			"homepage": "http://www.mylatterdays.com",
-			"role": "Developer"
+			"homepage": "https://github.com/blitze",
+			"role": "Lead Developer"
 		}],
 	"require": {
-		"php": ">=5.3",
-		"phpbb/phpbb": "3.1.*@dev"
+		"php": ">=5.3"
 	},
 	"extra": {
-		"display-name": "phpBB Primetime Categories"
+		"display-name": "phpBB Primetime Categories",
+		"soft-require": {
+			"phpbb/phpbb": "3.1.*@dev"
+		}
 	}
 }

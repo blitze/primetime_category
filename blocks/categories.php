@@ -25,7 +25,7 @@ class categories  extends \primetime\primetime\core\blocks\driver\block
 {
 	/**
 	 * Database
-	 * @var \phpbb\db\driver\driver
+	 * @var \phpbb\db\driver\factory
 	 */
 	protected $db;
 
@@ -44,10 +44,10 @@ class categories  extends \primetime\primetime\core\blocks\driver\block
 	/**
 	* Constructor
 	*
-	* @param \phpbb\db\driver\driver				$db     Database connection
+	* @param \phpbb\db\driver\factory				$db     Database connection
 	* @param \primetime\category\core\display		$tree	Category tree display object
 	*/
-	public function __construct(\phpbb\db\driver\driver $db, \primetime\category\core\display $tree)
+	public function __construct(\phpbb\db\driver\factory $db, \primetime\category\core\display $tree)
 	{
 		$this->db = $db;
 		$this->tree = $tree;
