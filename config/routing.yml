@@ -1,5 +1,9 @@
 primetime.category.admin:
     pattern: category/admin/{action}/{cat_id}
-    defaults: { _controller: primetime.category.admin:handle, cat_id: 0 }
+    defaults: { _controller: primetime.category.admin.controller:handle, cat_id: 0 }
     requirements:
         cat_id: \d+
+
+primetime.category.items:
+    pattern: /category/{category}
+    defaults: { _controller: primetime.category.items.controller:index }

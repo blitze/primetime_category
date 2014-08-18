@@ -21,8 +21,16 @@ services:
             - %tables.primetime.categories%
             - 'cat_id'
 
-    primetime.category.admin:
+    primetime.category.admin.controller:
         class: primetime\category\controller\admin
+        arguments:
+            - @dbal.conn
+            - @request
+            - @user
+            - @primetime.category.manager
+
+    primetime.category.items.controller:
+        class: primetime\category\controller\items
         arguments:
             - @dbal.conn
             - @request
