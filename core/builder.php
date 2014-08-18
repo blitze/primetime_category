@@ -27,8 +27,8 @@ class builder extends \primetime\primetime\core\tree\builder
 	 * @param \phpbb\cache\service					$cache			Cache object
 	 * @param \phpbb\db\driver\factory				$db             Database connection
 	 * @param \primetime\primetime\core\primetime	$primetime		Primetime object
-	 * @param string								$table_name		Table name
-	 * @param string								$pk				Primary key
+	 * @param string								$table			Categories Table
+	 * @param string								$pk				Primary key: cat_id
 	 * @param string								$sql_where		Column restriction
 	 */
 	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\db\driver\factory $db, \primetime\primetime\core\primetime $primetime, $table, $pk)
