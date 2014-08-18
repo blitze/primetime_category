@@ -1,6 +1,6 @@
 parameters:
-    tables.primetime.categories: %core.table_prefix%categories
-    tables.primetime.categories_data: %core.table_prefix%categories_data
+    tables.primetime.categories: %core.table_prefix%pt_categories
+    tables.primetime.categories_data: %core.table_prefix%pt_categories_data
 
 services:
 

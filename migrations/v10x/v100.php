@@ -26,7 +26,7 @@ class v100 extends \phpbb\db\migration\migration
 	{
 		return array(
 			'add_tables'	=> array(
-				$this->table_prefix . 'categories'	=> array(
+				$this->table_prefix . 'pt_categories' => array(
 					'COLUMNS'        => array(
 						'cat_id'			=> array('UINT', null, 'auto_increment'),
 						'cat_name'			=> array('VCHAR:55', ''),
@@ -42,14 +42,13 @@ class v100 extends \phpbb\db\migration\migration
 					),
 				),
 
-				$this->table_prefix . 'categories_data'	=> array(
+				$this->table_prefix . 'pt_categories_data' => array(
 					'COLUMNS'        => array(
 						'cat_id'			=> array('UINT', 0),
 						'item_id'			=> array('UINT', 0),
-						'ext'				=> array('VCHAR:55', ''),
 					),
 					'KEYS'			=> array(
-						'ext'				=> array('INDEX', 'ext'),
+						'cat_id'			=> array('INDEX', 'cat_id'),
 					),
 				),
 			),
@@ -60,8 +59,8 @@ class v100 extends \phpbb\db\migration\migration
 	{
 		return array(
 			'drop_tables'	=> array(
-				$this->table_prefix . 'categories',
-				$this->table_prefix . 'categories_data',
+				$this->table_prefix . 'pt_categories',
+				$this->table_prefix . 'pt_categories_data',
 			),
 		);
 	}
