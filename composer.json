@@ -7,8 +7,7 @@
 	"time": "2014-01-14 01:01:01",
 	"license": "GPL-2.0",
 	"authors": [{
-			"name": "Daniel A.",
-			"username": "Blitze",
+			"name": "Daniel A. (blitze)",
 			"email": "shizzah@hotmail.com",
 			"homepage": "https://github.com/blitze",
 			"role": "Lead Developer"
@@ -16,6 +15,9 @@
 	"require": {
 		"php": ">=5.3",
 		"composer/installers": "~1.0"
+	},
+	"require-dev": {
+		"phpbb/epv": "dev-master"
 	},
 	"extra": {
 		"display-name": "phpBB Primetime Categories",
