@@ -1,0 +1,16 @@
+<!-- IF field.FIELD_TYPE == 'category' -->
+<dl>
+	<dt><label>{L_MULTI_SELECT}</label></dt>
+	<dd>
+		<input name="fsettings[{field.FIELD_NAME}][multi]" type="radio" class="radio" value="1"<!-- IF field.MULTI --> checked="checked"<!-- ENDIF --> /> {L_YES}
+		<input name="fsettings[{field.FIELD_NAME}][multi]" type="radio" class="radio" value="0"<!-- IF not field.MULTI --> checked="checked"<!-- ENDIF --> /> {L_NO}
+	</dd>
+</dl>
+<dl>
+	<dt><label>{L_SHOW_ICONS}</label></dt>
+	<dd>
+		<input name="fsettings[{field.FIELD_NAME}][allow_icons]" type="radio" class="radio" value="1"<!-- IF field.ALLOW_ICONS --> checked="checked"<!-- ENDIF --> /> {L_YES}
+		<input name="fsettings[{field.FIELD_NAME}][allow_icons]" type="radio" class="radio" value="0"<!-- IF not field.ALLOW_ICONS --> checked="checked"<!-- ENDIF --> /> {L_NO}
+	</dd>
+</dl>
+<!-- ENDIF -->
