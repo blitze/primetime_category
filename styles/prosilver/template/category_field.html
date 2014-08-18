@@ -1,0 +1,6 @@
+<select name="{FIELD_NAME}[]" id="{FIELD_ID}"<!-- IF MULTI --> multiple="multiple" size="{FIELD_SIZE}"<!-- ENDIF --> class="inputbox">
+	<!-- IF not FIELD_REQUIRED --><option value="">{L_NONE}</option><!-- ENDIF -->
+	<!-- BEGIN option -->
+	<option value="{option.CAT_ID}"<!-- IF option.S_SELECTED --> selected="selected"<!-- ENDIF -->>{option.S_PADDING}{option.CAT_NAME}</option>
+	<!-- END option -->
+</select>

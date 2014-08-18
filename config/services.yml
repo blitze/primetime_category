@@ -37,6 +37,18 @@ services:
             - @user
             - @primetime.category.manager
 
+    form.field.category:
+        class: primetime\category\core\form_field
+        arguments:
+            - @dbal.conn
+            - @controller.helper
+            - @request
+            - @primetime.template
+            - @primetime.category.display
+            - %tables.primetime.categories_data%
+        tags:
+            - { name: form.field }
+
     primetime.category.listener:
         class: primetime\category\event\listener
         tags:
